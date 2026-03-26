@@ -20,7 +20,7 @@ async function getOne(req, res) {
   res.send(category);
 }
 
-function create(req, res) {
+async function create(req, res) {
   const { name, type } = req.body;
 
   if (!name || !type) {
@@ -29,7 +29,7 @@ function create(req, res) {
     return;
   }
 
-  const category = categoriesService.create({
+  const category = await categoriesService.create({
     name,
     type,
   });
@@ -37,10 +37,10 @@ function create(req, res) {
   res.status(201).send(category);
 }
 
-function update(req, res) {
+async function update(req, res) {
   const { id } = req.params;
 
-  const category = categoriesService.getById(id);
+  const category = await categoriesService.getById(id);
 
   if (!category) {
     res.sendStatus(404);
@@ -48,19 +48,19 @@ function update(req, res) {
     return;
   }
 
-  const updatedCategory = categoriesService.update({ id, ...req.body });
+  const updatedCategory = await categoriesService.update({ id, ...req.body });
 
   res.json(updatedCategory);
 }
 
-function remove(req, res) {
+async function remove(req, res) {
   const { id } = req.params;
 
-  if (!categoriesService.getById(id)) {
+  if (!await categoriesService.getById(id)) {
     return res.sendStatus(404);
   }
 
-  categoriesService.remove(id);
+  await categoriesService.remove(id);
   res.sendStatus(204);
 }
 

@@ -28,16 +28,16 @@ async function getOne(req, res) {
   res.send(expense);
 }
 
-function create(req, res) {
+async function create(req, res) {
   const { userId, spentAt, title, amount, category, note } = req.body;
 
-  if (!userId || !spentAt || !title || !amount || !category || !note) {
+  if (!userId || !spentAt || !title || !category) {
     res.sendStatus(400);
 
     return;
   }
 
-  const expense = expensesService.create({
+  const expense = await expensesService.create({
     userId,
     spentAt,
     title,
@@ -49,10 +49,10 @@ function create(req, res) {
   res.status(201).send(expense);
 }
 
-function update(req, res) {
+async function update(req, res) {
   const { id } = req.params;
 
-  const expense = expensesService.getById(id);
+  const expense = await expensesService.getById(id);
 
   if (!expense) {
     res.sendStatus(404);
@@ -60,19 +60,19 @@ function update(req, res) {
     return;
   }
 
-  const updatedExpense = expensesService.update({ id, ...req.body });
+  const updatedExpense = await expensesService.update({ id, ...req.body });
 
   res.json(updatedExpense);
 }
 
-function remove(req, res) {
+async function remove(req, res) {
   const { id } = req.params;
 
-  if (!expensesService.getById(id)) {
+  if (!await expensesService.getById(id)) {
     return res.sendStatus(404);
   }
 
-  expensesService.remove(id);
+  await expensesService.remove(id);
   res.sendStatus(204);
 }
 

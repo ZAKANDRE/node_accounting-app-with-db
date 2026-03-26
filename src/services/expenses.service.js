@@ -21,8 +21,6 @@ function create({ userId, spentAt, title, amount, category, note }) {
 }
 
 async function update({ id, ...fields }) {
-  const expense = getById(id);
-  // Object.assign(expense, fields);
   await Expense.update(fields, { where: { id } });
 
   return Expense.findByPk(id);
