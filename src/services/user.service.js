@@ -26,6 +26,7 @@ function create(name) {
 
 async function update({ id, name }) {
   await User.update({ name }, { where: { id } });
+  return User.findByPk(id);
 }
 
 async function remove(id) {

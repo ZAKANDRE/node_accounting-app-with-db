@@ -20,7 +20,7 @@ async function getOne(req, res) {
   res.send(userService.normalize(person));
 }
 
-function create(req, res) {
+async function create(req, res) {
   const { name } = req.body;
   if (!name) {
     res.sendStatus(400);
@@ -28,16 +28,16 @@ function create(req, res) {
     return;
   }
 
-  const user = userService.create(name);
+  const user = await userService.create(name);
 
   res.statusCode = 201;
   res.send(userService.normalize(user));
 }
 
-function update(req, res) {
+async function update(req, res) {
   const { id } = req.params;
   const { name } = req.body;
-  const user = userService.getById(id);
+  const user = await userService.getById(id);
 
   if (!user) {
     res.sendStatus(404);
@@ -52,19 +52,19 @@ function update(req, res) {
   }
 
   // res.sendStatus(200);
-  const updatedUser = userService.update({ id, name });
+  const updatedUser = await userService.update({ id, name });
 
   res.json(updatedUser);
 }
 
-function remove(req, res) {
+async function remove(req, res) {
   const { id } = req.params;
 
-  if (!userService.getById(id)) {
+  if (!await userService.getById(id)) {
     return res.sendStatus(404);
   }
 
-  userService.remove(id);
+  await userService.remove(id);
   res.sendStatus(204);
 }
 
