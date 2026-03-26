@@ -1,11 +1,9 @@
-'use strict';
 /* eslint-disable */
-
 const { sequelize } = require('../db.js');
 const { DataTypes } = require('sequelize');
 
-const User = sequelize.define(
-  'User',
+const Category = sequelize.define(
+  'Category',
   {
     id: {
       type: DataTypes.UUID,
@@ -16,13 +14,17 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
-    tableName: 'users',
+    tableName: 'categories',
     timestamps: false,
   },
 );
 
 module.exports = {
-  User,
+  Category,
 };
